@@ -81,4 +81,14 @@ public class OrderSettingServiceImpl implements OrderSettingService {
             orderSettingDao.add(orderSetting);
         }
     }
+
+    /**
+     * name:ly
+     * 创建了delete方法
+     * @param orderDate
+     */
+    @Override
+    public void delete(String orderDate) {
+        orderSettingDao.delete(orderDate);
+    }
 }

@@ -26,4 +26,11 @@ public interface OrderSettingService {
      * @param orderSetting
      */
     void editNumberByDate(OrderSetting orderSetting);
+
+    /**
+     * name:ly
+     * 创建了delete方法
+     * @param orderDate
+     */
+    void delete(String orderDate);
 }

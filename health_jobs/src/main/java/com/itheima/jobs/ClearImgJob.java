@@ -12,7 +12,6 @@ import java.util.Set;
  * @Author: yp
  */
 public class ClearImgJob {
-
     @Autowired
     private JedisPool jedisPool;
 
@@ -30,5 +29,4 @@ public class ClearImgJob {
             }
         }
     }
-
 }
