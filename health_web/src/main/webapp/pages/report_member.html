@@ -24,6 +24,30 @@
             </div>
             <div class="app-container">
                 <div class="box">
+                    <!--日期选择器-->
+                    <div class="filter-container">
+                        <template>
+                            <div class="block">
+                                <span class="demonstration">开始日期</span>
+                                <el-date-picker
+                                        v-model="value1"
+                                        type="date"
+                                        placeholder="   选择日期">
+                                </el-date-picker>
+                            </div>
+                            <div class="block">
+                                <span class="demonstration">结束日期</span>
+                                <el-date-picker
+                                        v-model="value2"
+                                        align="right"
+                                        type="date"
+                                        placeholder="   选择日期"
+                                        :picker-options="pickerOptions">
+                                </el-date-picker>
+                                <el-button @click="findByDate()" class="dalfBut">根据日期展示</el-button>
+                            </div>
+                        </template>
+                    </div>
                     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                     <div id="chart1" style="height:600px;"></div>
                 </div>
@@ -31,9 +55,84 @@
         </div>
     </body>
     <!-- 引入组件库 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
     <script src="../js/vue.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
     <script type="text/javascript">
+        // 根据日期选择
+        var vue = new Vue({
+            el:"#app",
+            data:{
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now();
+                    },
+                    shortcuts: [{
+                        text: '今天',
+                        onClick(picker) {
+                            picker.$emit('pick', new Date());
+                        }
+                    }, {
+                        text: '昨天',
+                        onClick(picker) {
+                            const date = new Date();
+                            date.setTime(date.getTime() - 3600 * 1000 * 24);
+                            picker.$emit('pick', date);
+                        }
+                    }, {
+                        text: '一周前',
+                        onClick(picker) {
+                            const date = new Date();
+                            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', date);
+                        }
+                    }]
+                },
+                value1: '',
+                value2: '',
+            },
+            methods:{
+                findByDate(){
+                    var params = {
+                        value1 : this.value1,
+                        value2 : this.value2
+                    }
+                    axios.post("/report/getMemberReportByMonth.do?value1=",params).then((res)=>{
+                        this.$message({
+                            message:res.data.message,
+                            type:res.data.flag? 'success':'error'
+                        })
+
+                        myChart1.setOption(
+                            {
+                                title: {
+                                    text: '会员数量'
+                                },
+                                tooltip: {},
+                                legend: {
+                                    data:['会员数量']
+                                },
+                                xAxis: {
+                                    data: res.data.data.months
+                                },
+                                yAxis: {
+                                    type:'value'
+                                },
+                                series: [{
+                                    name: '会员数量',
+                                    type: 'line',
+                                    data: res.data.data.memberCount
+                                }]
+                            });
+                    });
+                }
+            }
+        })
+
+
         // 基于准备好的dom，初始化echarts实例
         var myChart1 = echarts.init(document.getElementById('chart1'));
 

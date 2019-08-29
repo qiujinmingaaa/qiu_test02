@@ -2,6 +2,7 @@ package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.constants.MessageConstant;
+import com.itheima.entity.BeginAndEnd;
 import com.itheima.entity.Result;
 import com.itheima.service.MemberService;
 import com.itheima.service.OrderService;
@@ -11,6 +12,7 @@ import com.itheima.util.DateUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -254,6 +257,53 @@ public class ReportController {
         System.out.println(monthsList);
 
 
+    }
+
+    /**
+     * 根据日期显示会员统计
+     *
+     * @return
+     */
+    @RequestMapping("/getMemberReportByMonth")
+    public Result getMemberReportByMonth(@RequestBody BeginAndEnd beginAndEnd) {
+        try {
+            //创建月份数组
+            List<String> monthList = new ArrayList<>();
+            //获取月份数据 eg:[2015.6,2015.7,2015.8]
+            String date1 = DateUtils.parseDate2String(beginAndEnd.getValue1(), "yyyy-MM");
+            String date2 = DateUtils.parseDate2String(beginAndEnd.getValue2(), "yyyy-MM");
+            System.out.println("date2 = " + date2);
+            //设置date格式
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+            //创建2个日历对象
+            Calendar ca1 = Calendar.getInstance();
+            Calendar ca2 = Calendar.getInstance();
+            //设置日历对象
+            ca1.setTime(sdf.parse(date1));
+            ca1.set(ca1.get(Calendar.YEAR), ca1.get(Calendar.MONTH), 1);
+
+            ca2.setTime(sdf.parse(date2));
+            ca2.set(ca2.get(Calendar.YEAR), ca2.get(Calendar.MONTH), 2);
+
+            Calendar curr = ca1;
+            //当ca1的月份小于ca2的月份时,将月份+1,并且将该月存到月份数组
+            while (curr.before(ca2)) {
+                monthList.add(sdf.format(curr.getTime()));
+                curr.add(Calendar.MONTH, 1);
+            }
+            //根据月份数组获取会员数量
+            List<Integer> memberCount = memberService.getMemberReport(monthList);
+            Map map = new HashMap<>();
+
+            map.put("months", monthList);
+            map.put("memberCount", memberCount);
+
+
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
     }
 
 }
