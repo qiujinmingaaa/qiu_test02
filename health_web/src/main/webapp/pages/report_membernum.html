@@ -1,0 +1,345 @@
+
+<!--* @program: health
+* @description: 添加的页面
+* @author:qiu
+* @create: 2019-08-29 11;30-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../plugins/echarts/echarts.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>统计分析<small>组成分析</small></h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+            <el-breadcrumb-item>会员组成分析</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+    <div class="app-container">
+        <div class="box">
+
+            <!--<div class="options">
+                <el-select v-model="value" placeholder="请选择">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>-->
+            <div class="fenge">
+            <div class="app-container">
+
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="chart1" style="height:400px;" style="width: 400px"></div>
+
+            </div>
+                <hr/>
+            <div class="app-container1">
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="chart2" style="height:400px;" style="width: 400px"></div>
+            </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script>
+  /*  var vue = new Vue({
+        el: '#app',
+        data:{
+            pagination: {//分页相关模型数据
+                currentPage: 1,//当前页码
+                pageSize:8,//每页显示的记录数
+                total:0,//总记录数
+                queryString:null//查询条件
+            },
+            dataList: [],//当前页要展示的分页列表数据
+            formData: {},//表单数据
+            dialogFormVisible: false,//增加表单是否可见
+            dialogFormVisible4Edit:false,//编辑表单是否可见
+            rules: {//校验规则
+                code: [{ required: true, message: '项目编码为必填项', trigger: 'blur' }],
+                name: [{ required: true, message: '项目名称为必填项', trigger: 'blur' }]
+            },
+
+            options: [{
+                value: '选项1',
+                label: '黄金糕'
+            }, {
+                value: '选项2',
+                label: '双皮奶'
+            }, {
+                value: '选项3',
+                label: '蚵仔煎'
+            }, {
+                value: '选项4',
+                label: '龙须面'
+            }, {
+                value: '选项5',
+                label: '北京烤鸭'
+            }]
+        },
+        //钩子函数，VUE对象初始化完成后自动执行
+        created() {
+
+        },
+        methods: {
+            //编辑
+            handleEdit() {
+                this.$refs["dataEditForm"].validate((valid) => {
+                    if (valid) {
+                        axios.post("/check/edit.do",this.formData).then(response=>{
+                            this.dialogFormVisible4Edit=false;
+                            if (response.data.flag){
+                                this.$message({
+                                    message: response.data.message,
+                                    type: 'success'
+                                })
+                            }else {
+                                this.$message.error(response.data.message);
+
+                            }
+                        }).finally(()=>{
+                            this.findPage();
+                        })
+                    } else {
+                        this.$message.error("表单检验失败");
+                        return false;
+                    }
+                });
+
+            },
+            //添加
+            handleAdd () {
+                this.$refs["dataAddForm"].validate((valid) => {
+                    if (valid) {
+                        axios.post("/check/add.do",this.formData).then(response=>{
+                            this.dialogFormVisible=false;
+                            if (response.data.flag){
+                                this.$message({
+                                    message: response.data.message,
+                                    type: 'success'
+                                })
+                            }else {
+                                this.$message.error(response.data.message);
+
+                            }
+                        }).finally(()=>{
+                            this.findPage();
+                        })
+                    } else {
+                        this.$message.error("表单检验失败");
+                        return false;
+                    }
+                });
+            },
+            //分页查询
+            findPage() {
+                var parem={
+                    currentPage:this.pagination.currentPage,
+                    pageSize:this.pagination.pageSize,
+                    queryString:this.pagination.queryString
+                }
+                axios.post("/check/page.do",parem).then(response=>{
+                    this.dataList=response.data.rows;
+                    this.pagination.total=response.data.total;
+                })
+            },
+            // 重置表单
+            resetForm() {
+                this.formData = {};
+            },
+            // 弹出添加窗口
+            handleCreate() {
+                this.resetForm();
+                this.dialogFormVisible=true;
+            },
+            // 弹出编辑窗口
+            handleUpdate(row) {
+                this.dialogFormVisible4Edit=true
+                axios.get("/check/seefrom.do?id="+row.id).then(response=>{
+                    if (response.data.flag){
+                        this.formData=response.data.data;
+                        this.$message.success(response.data.message);
+                    }else {
+                        this.$message.error(response.data.message);
+                    }
+
+                })
+            },
+            //切换页码
+            handleCurrentChange(currentPage) {
+                this.pagination.currentPage=currentPage;
+                this.findPage();
+            },
+            //切换页码大小
+            handleSizeChange(pagesize) {
+                this.pagination.pageSize=pagesize;
+                this.findPage();
+            },
+            // 删除
+            handleDelete(row) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post("/check/delete.do?id="+row.id).then(response=>{
+                        if(response.data.flag){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+
+                        }else {
+                            this.$message.error(response.data.message);
+                        }
+                        this.findPage();
+                    }).catch((r)=>{
+                        this.showMessage(r);
+                    });
+
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+
+            showMessage(r){
+                if(r == 'Error: Request failed with status code 403'){
+                    //权限不足
+                    this.$message.error('权限不足');
+                    return;
+                }else{
+                    this.$message.error('未知错误');
+                    return;
+                }
+            }
+
+
+        }
+    })*/
+</script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('chart1'));
+
+    // 使用刚指定的配置项和数据显示图表。
+    //myChart.setOption(option);
+
+    axios.get("/member/getSex.do").then((res)=>{
+        myChart1.setOption({
+            title : {
+                text: '会员性别占比',
+                subtext: '',
+                x:'center'
+            },
+            tooltip : {//提示框组件
+                trigger: 'item',//触发类型，在饼形图中为item
+                formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: res.data.data.memberNames
+
+            },
+            series : [
+                {
+                    name: '会员性别占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:res.data.data.memberCount,
+
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+    });
+</script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart2 = echarts.init(document.getElementById('chart2'));
+
+    // 使用刚指定的配置项和数据显示图表。
+    //myChart.setOption(option);
+
+    axios.get("/member/getAgeGroup.do").then((res)=>{
+        myChart2.setOption({
+            title : {
+                text: '会员年龄段占比',
+                subtext: '',
+                x:'center'
+            },
+            tooltip : {//提示框组件
+                trigger: 'item',//触发类型，在饼形图中为item
+                formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: res.data.data.memberNames
+
+            },
+            series : [
+                {
+                    name: '会员年龄段占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:res.data.data.memberCount,
+
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+    });
+</script>
+</html>
