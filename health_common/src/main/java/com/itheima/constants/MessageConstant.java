@@ -68,7 +68,11 @@ public class MessageConstant {
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
     public static final String EDIT_ORDERSETTING_SUCCESS = "更新预约设置成功";
     public static final String EDIT_ORDERSETTING_FAIL = "更新预约设置失败";
-
-
+    public static final String EDIT_ROLE_FAIL = "编辑角色失败";
+    public static final String EDIT_ROLE_SUCCESS = "编辑角色成功";
+    public static final String ADD_ROLE_FAIL = "新增角色失败";
+    public static final String ADD_ROLE_SUCCESS = "新增角色成功";
+    public static final String DELETE_ROLE_FAIL = "删除角色失败";
+    public static final String DELETE_ROLE_SUCCESS = "删除角色成功";
     public static final String ORDER_FAIL = "预约失败";
 }

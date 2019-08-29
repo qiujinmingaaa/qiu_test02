@@ -119,6 +119,13 @@
                             "linkUrl":"all-item-list.html",
                             "children":[]
                         },
+                        /*qiu 增加的页面连接*/
+                        {
+                            "path": "/5-4",
+                            "title": "会员数量组成报表",
+                            "linkUrl":"report_membernum.html",
+                            "children":[]
+                        }
                     ]
                 },
                 {
@@ -194,13 +201,38 @@
                             "linkUrl":"report_business.html",
                             "children":[]
                         },
-                        /*qiu 增加的页面连接*/
+
+                    ]
+                },
+                {
+                    "path": "6",     //菜单项所对应的路由路径
+                    "title": "系统设置",     //菜单项名称
+                    "icon":"fa-cog",
+                    "children":[//是否有子菜单，若没有，则为[]
                         {
-                            "path": "/5-4",
-                            "title": "会员数量组成报表",
-                            "linkUrl":"report_membernum.html",
+                            "path": "/6-1",
+                            "title": "菜单管理",
+                            "linkUrl":"all-medical-list.html",
                             "children":[]
                         },
+                        {
+                            "path": "/6-2",
+                            "title": "权限设置",
+                            "linkUrl":"all-medical-list.html",
+                            "children":[]
+                        },
+                        {
+                            "path": "/6-3",
+                            "title": "角色管理",
+                            "linkUrl":"/pages/role.html",
+                            "children":[]
+                        },
+                        {
+                            "path": "/6-4",
+                            "title": "用户管理",
+                            "linkUrl":"all-medical-list.html",
+                            "children":[]
+                        }
                     ]
                 }
             ]

@@ -13,6 +13,15 @@ public class Result implements Serializable{
     public Result() {
     }
 
+    /**
+     * @description: 有参构造函数, param: boolean flag
+     * @author: liuXiGua
+     * @time: 2019/8/29 11:27
+     */
+    public Result(boolean flag) {
+        this.flag = flag;
+    }
+
     public Result(boolean flag, String message) {
         this.flag = flag;
         this.message = message;

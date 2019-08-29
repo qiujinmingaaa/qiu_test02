@@ -5,4 +5,55 @@
     <select id="findByUserId" parameterType="Integer" resultType="Role">
         SELECT * FROM t_role WHERE id in (SELECT role_id FROM t_user_role WHERE user_id =#{userId})
     </select>
+
+    <insert id="addRole" parameterType="Role" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_role (name, keyword, description) VALUES (#{name}, #{keyword}, #{description})
+    </insert>
+
+    <insert id="addrole_permission" parameterType="map">
+        INSERT INTO t_role_permission (role_id, permission_id) VALUES (#{roleId}, #{permissionId})
+    </insert>
+
+    <insert id="addrole_menuId" parameterType="map">
+        INSERT INTO t_role_menu (role_id, menu_id) VALUES (#{roleId}, #{menuId})
+    </insert>
+
+    <select id="findPage" parameterType="String" resultType="Role">
+        SELECT * FROM t_role
+        <if test="value != null">
+            WHERE name LIKE '%${value}%' OR keyword LIKE '%${value}%'
+        </if>
+    </select>
+
+    <select id="findRoleById" parameterType="integer" resultType="Role">
+        SELECT * FROM t_role WHERE id = #{id}
+    </select>
+
+    <select id="findPermissionIds" parameterType="integer" resultType="integer">
+        SELECT permission_id FROM t_role_permission WHERE role_id = #{id}
+    </select>
+
+    <select id="findMenuIds" parameterType="integer" resultType="integer">
+        SELECT menu_id FROM t_role_menu WHERE role_id = #{id}
+    </select>
+
+    <update id="editRole" parameterType="Role">
+        UPDATE t_role SET name = #{name}, keyword = #{keyword}, description = #{description} WHERE id = #{id}
+    </update>
+
+    <delete id="deletePermissionIdsByroleId" parameterType="Integer">
+        DELETE FROM t_role_permission WHERE role_id = #{id}
+    </delete>
+
+    <delete id="deletemenuIdsByroleId" parameterType="Integer">
+        DELETE FROM t_role_menu WHERE role_id = #{id}
+    </delete>
+
+    <select id="findUserIdsByRoleId" parameterType="Integer" resultType="Integer">
+        SELECT user_id FROM t_user_role WHERE role_id = #{id}
+    </select>
+
+    <delete id="deleteRoleById" parameterType="Integer">
+        DELETE FROM t_role WHERE id = #{id}
+    </delete>
 </mapper>

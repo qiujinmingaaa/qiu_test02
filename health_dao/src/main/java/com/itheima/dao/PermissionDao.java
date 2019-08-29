@@ -2,6 +2,7 @@ package com.itheima.dao;
 
 import com.itheima.pojo.Permission;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,4 +17,11 @@ public interface PermissionDao {
      * @return
      */
     Set<Permission> findByRoleId(Integer roleId);
+
+    /**
+     * @description: 查询全部权限信息
+     * @author: liuXiGua
+     * @time: 2019/8/29 11:41
+     */
+    List<Permission> findAllPermission();
 }

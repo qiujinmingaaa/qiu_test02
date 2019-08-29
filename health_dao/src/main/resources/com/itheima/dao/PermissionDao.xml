@@ -5,4 +5,8 @@
     <select id="findByRoleId" parameterType="Integer" resultType="Permission">
         SELECT * FROM t_permission WHERE id in(SELECT permission_id FROM t_role_permission WHERE role_id = #{roleId})
     </select>
+
+    <select id="findAllPermission" resultType="Permission">
+        SELECT * FROM t_permission;
+    </select>
 </mapper>
