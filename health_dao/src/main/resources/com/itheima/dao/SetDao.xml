@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.SetDao">
+    <insert id="add" parameterType="permission">
+        insert into t_permission VALUES (null,#{name},#{keyword},#{description})
+    </insert>
+    <select id="page" parameterType="string" resultType="permission">
+        select *from t_permission
+        <if test="value!=null and value.length>0">
+        where name=#{value} or keyword=#{value}
+        </if>
+    </select>
+
+    <select id="findPerById" parameterType="string" resultType="permission">
+        select*from t_permission where id=#{id}
+    </select>
+
+    <update id="edit" parameterType="permission">
+        UPDATE t_permission
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="keyword!=null">
+                keyword=#{keyword},
+            </if>
+            <if test="description!=null">
+                description=#{description},
+            </if>
+        </set> where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="string">
+        delete from t_permission where id=#{id}
+    </delete>
+
+    <insert id="addMenu" parameterType="menu">
+        insert into t_menu VALUES (null,#{name},#{linkUrl},#{path},#{priority},#{icon},#{description},#{parentMenuId},null)
+    </insert>
+</mapper>
