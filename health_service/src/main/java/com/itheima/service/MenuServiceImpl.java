@@ -25,7 +25,7 @@ public class MenuServiceImpl implements MenuService{
     /**
      * @description: 查询全部菜单信息
      * @author: liuXiGua
-     * @time: 2019/8/28 17:50
+     * @time: 2019/8/28 17:50111
      */
     @Override
     public List<Menu> findAllMenu() {
