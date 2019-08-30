@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface MenuService {
     List<Menu> findAllMenu();
+
+    List<Menu> menuList(String username);
 }

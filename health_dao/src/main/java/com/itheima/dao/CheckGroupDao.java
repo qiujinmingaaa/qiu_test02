@@ -2,6 +2,7 @@ package com.itheima.dao;
 
 import com.github.pagehelper.Page;
 import com.itheima.pojo.CheckGroup;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -61,4 +62,13 @@ public interface CheckGroupDao {
      * @return
      */
     List<CheckGroup> findAll();
+
+    @Select("SELECT setmeal_id FROM t_setmeal_checkgroup WHERE checkgroup_id = (SELECT checkgroup_id FROM t_checkgroup_checkitem WHERE checkitem_id = #{id})")
+    List<Integer> findSetmealIdByCheckItemId(Integer checkItemId);
+
+    @Select("SELECT count(1) FROM t_setmeal_checkgroup where checkgroup_id = #{id}")
+    Integer findCount(Integer id);
+
+    @Select("SELECT setmeal_id FROM t_setmeal_checkgroup WHERE checkgroup_id = #{id}")
+    List<Integer> findSetmealIdByCheckGroupId(Integer checkGroupId);
 }

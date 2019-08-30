@@ -21,7 +21,7 @@ public class UserController {
      * 获得用户信息
      * @return
      */
-    @RequestMapping("/getUserInfo")
+    @RequestMapping("/findUsername")
     public Result getUserInfo(){
         try {
             //SpringSecurity里面获得

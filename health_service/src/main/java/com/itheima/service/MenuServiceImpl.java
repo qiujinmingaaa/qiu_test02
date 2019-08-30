@@ -32,4 +32,17 @@ public class MenuServiceImpl implements MenuService{
         List<Menu> menus = menuDao.findAllMenu();
         return menus;
     }
+
+    @Override
+    /**
+    * @Description: 根据当前登录用户名查询该用户能看到的菜单
+    * @Param: [username]
+    * @return: java.util.List<com.itheima.pojo.Menu>
+    * @Author: Walvi
+    * @Date: 2019/8/30
+    */
+    public List<Menu> menuList(String username) {
+        List<Menu> menuList = menuDao.findMenuListByUsername(username);
+        return menuList;
+    }
 }

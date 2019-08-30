@@ -9,6 +9,7 @@ import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.CheckGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,9 @@ public class CheckGroupServiceImpl implements CheckGroupService {
 
     @Autowired
     private CheckGroupDao checkGroupDao;
+
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
      * 新增检查组
@@ -104,6 +108,20 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         checkGroupDao.deleteCheckItemsById(checkGroup.getId());
         //3.调用Dao 插入检查组关联的检查项(t_checkgroup_checkitem)
         setCheckGroupAndCheckItem(checkGroup.getId(),checkitemIds);
+        //获取当前检查组Id
+        Integer checkGroupId = checkGroup.getId();
+        //检查当前检查组是否被引用
+        Integer count = checkGroupDao.findCount(checkGroupId);
+
+        if (count>0){//如果被引用，根据当前检查组Id查出引用当前检查组的套餐Id
+            List<Integer> setmealIds = checkGroupDao.findSetmealIdByCheckGroupId(checkGroupId);
+            if (setmealIds!=null && setmealIds.size()>0){
+                for (Integer setmealId : setmealIds) {
+                    //将当前套餐详情信息从Redis中删除
+                    jedisPool.getResource().del("findById"+setmealId);
+                }
+            }
+        }
     }
 
     /**

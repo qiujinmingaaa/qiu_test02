@@ -1,6 +1,7 @@
 package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.itheima.constants.MessageConstant;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Menu;
 import com.itheima.service.MenuService;
@@ -43,6 +44,24 @@ public class MenuController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @RequestMapping("/findMenuList")
+    /**
+    * @Description: 获取当前角色的菜单集合
+    * @Param: [username]
+    * @return: com.itheima.entity.Result
+    * @Author: Walvi
+    * @Date: 2019/8/30
+    */
+    public Result menuList(String username) {
+        try {
+            List<Menu> list = menuService.menuList(username);
+            return new Result(true, MessageConstant.GET_MENU_SUCCESS, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_MENU_FAIL);
+        }
     }
 
 }

@@ -3,12 +3,14 @@ package com.itheima.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.itheima.dao.CheckGroupDao;
 import com.itheima.dao.CheckItemDao;
 import com.itheima.entity.PageResult;
 import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.CheckItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 
@@ -22,6 +24,12 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     @Autowired
     private CheckItemDao checkItemDao;
+
+    @Autowired
+    private CheckGroupDao checkGroupDao;
+
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
      * 新增CheckItem
@@ -88,6 +96,19 @@ public class CheckItemServiceImpl implements CheckItemService {
     @Override
     public void edit(CheckItem checkItem) {
         checkItemDao.edit(checkItem);
+        //获取当前检查项Id
+        Integer checkItemId = checkItem.getId();
+        //查询当前检查项是否被引用
+        long count = checkItemDao.findByCheckItemId(checkItemId);
+        if (count > 0) {//如果被引用，根据当前检查项Id查出引用当前检查项的套餐Id
+            List<Integer> setmealIds = checkGroupDao.findSetmealIdByCheckItemId(checkItemId);
+            if (setmealIds!=null && setmealIds.size()>0){
+                for (Integer setmealId : setmealIds) {//删除Redis中当前套餐详情
+                    jedisPool.getResource().del("findById"+setmealId);
+                }
+            }
+        }
+
     }
 
     /**
