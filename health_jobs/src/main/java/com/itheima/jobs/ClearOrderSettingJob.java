@@ -18,6 +18,8 @@ public class ClearOrderSettingJob {
     private OrderSettingService orderSettingService;
 
     public void clearOrderSetting() throws Exception {
+
+        System.out.println(orderSettingService);
         Date date = new Date();
         String orderDate = DateUtils.parseDate2String(date, "yyyy-MM-dd");
         orderSettingService.delete(orderDate);
