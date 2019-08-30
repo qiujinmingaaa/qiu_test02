@@ -1,5 +1,8 @@
 package com.itheima.dao;
 
+import com.github.pagehelper.Page;
+import com.itheima.pojo.CheckGroup;
+import com.itheima.pojo.CheckItem;
 import com.itheima.pojo.Setmeal;
 
 import java.util.List;
@@ -33,4 +36,15 @@ public interface SetMealDao {
      * @return
      */
     Setmeal findById(Integer id);
+
+    /** 
+    * @Description: 创建套餐管理分页查询
+    * @Param: [queryString] 
+    * @return: com.github.pagehelper.Page<com.itheima.pojo.Setmeal> 
+    * @Author: JinPeng
+    * @Date: 2019/8/29 
+    */
+    Page<Setmeal> findByConditions(String queryString);
+
+
 }

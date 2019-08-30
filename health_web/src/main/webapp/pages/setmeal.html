@@ -63,6 +63,7 @@
                 text-align: left;
             }
         </style>
+
     </head>
     <body class="hold-transition">
         <div id="app">
@@ -231,9 +232,7 @@
                     </div>
                 </div>
             </div>
-            {{formData}}
             <hr/>
-            {{checkgroupIds}}
         </div>
     </body>
 
@@ -304,8 +303,26 @@
                         }
                     });
                 },
+                /**
+                 * @Description: 创建套餐管理分页查询
+                 * @Param: [queryPageBean]
+                 * @return: com.itheima.entity.PageResult
+                 * @Author: JinPeng
+                 * @Date: 2019/8/29
+                 */
                 //分页查询
                 findPage() {
+                    var params={
+                        currentPage:this.pagination.currentPage,
+                        pageSize:this.pagination.pageSize,
+                        queryString:this.pagination.queryString,
+
+                    };
+                    axios.post('/setmeal/findPage.do',params).then(response=>{
+                        this.pagination.total = response.data.total;
+                        this.dataList = response.data.rows
+                    })
+
                 },
                 // 重置表单
                 resetForm() {

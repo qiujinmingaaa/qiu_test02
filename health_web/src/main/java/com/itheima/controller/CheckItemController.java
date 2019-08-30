@@ -26,16 +26,16 @@ public class CheckItemController {
     private CheckItemService checkItemService;
 
 
-
     /**
      * 查询所有的检查项
+     *
      * @return
      */
     @RequestMapping("/findAll")
-    public Result findAll(){
+    public Result findAll() {
         try {
-            List<CheckItem> list =  checkItemService.findAll();
-            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,list);
+            List<CheckItem> list = checkItemService.findAll();
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, list);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
@@ -44,11 +44,12 @@ public class CheckItemController {
 
     /**
      * 更新检查项
+     *
      * @param checkItem
      * @return
      */
     @RequestMapping("/edit")
-    public Result edit(@RequestBody CheckItem checkItem){
+    public Result edit(@RequestBody CheckItem checkItem) {
         try {
             checkItemService.edit(checkItem);
             return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
@@ -60,6 +61,7 @@ public class CheckItemController {
 
     /**
      * 根据id查询
+     *
      * @param id
      * @return
      */
@@ -67,7 +69,7 @@ public class CheckItemController {
     public Result findById(Integer id) {
         try {
             CheckItem checkItem = checkItemService.findById(id);
-            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItem);
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItem);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);

@@ -27,11 +27,12 @@ public class OrderSettingController {
 
     /**
      * 根据日期更新最大预约人数
+     *
      * @param orderSetting
      * @return
      */
     @RequestMapping("/editNumberByDate")
-    public Result editNumberByDate(@RequestBody  OrderSetting orderSetting){
+    public Result editNumberByDate(@RequestBody OrderSetting orderSetting) {
         try {
             orderSettingService.editNumberByDate(orderSetting);
             return new Result(true, MessageConstant.EDIT_ORDERSETTING_SUCCESS);
@@ -44,11 +45,12 @@ public class OrderSettingController {
 
     /**
      * 查询当前月份的预约设置
+     *
      * @param date
      * @return
      */
     @RequestMapping("/getOrderSettingByMonth")
-    public Result getOrderSettingByMonth(String date){
+    public Result getOrderSettingByMonth(String date) {
         try {
             //1.绑定请求参数(2019-08)
             //2.调用业务 获得当前月的预约设置 List<OrderSetting> list
@@ -67,7 +69,7 @@ public class OrderSettingController {
             //方式二: 在OrderSetting里面定义getDate()方法
 
             //3.响应
-            return new Result(true, MessageConstant.GET_ORDERSETTING_SUCCESS,list);
+            return new Result(true, MessageConstant.GET_ORDERSETTING_SUCCESS, list);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.GET_ORDERSETTING_FAIL);
@@ -87,7 +89,7 @@ public class OrderSettingController {
             List<String[]> list = POIUtils.readExcel(excelFile);
             //2.把List<String[]> 封装成List<OrderSetting>
             List<OrderSetting> orderSettingList = new ArrayList<OrderSetting>();
-            if(list != null && list.size()>0){
+            if (list != null && list.size() > 0) {
                 for (String[] array : list) {
                     //每遍历一次 就是一个String[] , 就封装成一个OrderSetting对象
                     OrderSetting orderSetting = new OrderSetting(new Date(array[0]), Integer.parseInt(array[1]));

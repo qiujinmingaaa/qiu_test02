@@ -3,11 +3,14 @@ package com.itheima.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.constants.MessageConstant;
 import com.itheima.constants.RedisConstant;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
 import com.itheima.entity.Result;
 import com.itheima.pojo.Setmeal;
 import com.itheima.service.SetMealService;
 import com.itheima.util.QiniuUtils;
 import com.itheima.util.UploadUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,21 +35,22 @@ public class SetMealController {
 
     /**
      * 文件上传
+     *
      * @param imgFile
      * @return
      */
     @RequestMapping("/upload")
-    public Result upload(MultipartFile imgFile){
+    public Result upload(MultipartFile imgFile) {
         try {
             //1.获得文件名
             String filename = imgFile.getOriginalFilename();
             //2.把文件名改成UUID名字
             filename = UploadUtils.getUUIDName(filename);
             //3.调用七牛云的API进行上传到七牛云【imgFile.getBytes(): 以字节数组方式获得文件的内容】
-            QiniuUtils.upload2Qiniu(imgFile.getBytes(),filename);
+            QiniuUtils.upload2Qiniu(imgFile.getBytes(), filename);
             //把图片名字存到Redis
-            jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_RESOURCES,filename);
-            return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS,filename);
+            jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_RESOURCES, filename);
+            return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS, filename);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.PIC_UPLOAD_FAIL);
@@ -55,13 +59,14 @@ public class SetMealController {
 
     /**
      * 新增套餐
+     *
      * @param setmeal
      * @param checkgroupIds
      */
     @RequestMapping("/add")
-    public Result add( @RequestBody Setmeal setmeal,Integer[] checkgroupIds){
+    public Result add(@RequestBody Setmeal setmeal, Integer[] checkgroupIds) {
         try {
-            setMealService.add(setmeal,checkgroupIds);
+            setMealService.add(setmeal, checkgroupIds);
             return new Result(true, MessageConstant.ADD_SETMEAL_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +74,17 @@ public class SetMealController {
         }
     }
 
-
-
+    /**
+     * @Description: 创建套餐管理分页查询
+     * @Param: [queryPageBean]
+     * @return: com.itheima.entity.PageResult
+     * @Author: JinPeng
+     * @Date: 2019/8/29
+     */
+    @RequestMapping("/findPage")
+    public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
+        PageResult pageResult = setMealService.findPage(queryPageBean);
+        return pageResult;
+    }
 
 }

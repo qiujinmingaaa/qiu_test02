@@ -43,5 +43,19 @@
         SELECT * FROM t_setmeal WHERE id = #{id}
     </select>
 
-
+    <!--
+    /**
+    * @Description: 创建套餐管理分页查询
+    * @Param: [String]
+    * @return: Setmeal
+    * @Author: JinPeng
+    * @Date: 2019/8/29
+    */
+    -->
+    <select id="findByConditions" resultType="Setmeal" parameterType="String">
+        select * from t_setmeal
+        <if test="value != null and value.length > 0">
+            where remark like '%${value}%' or name like '%${value}%'
+        </if>
+    </select>
 </mapper>

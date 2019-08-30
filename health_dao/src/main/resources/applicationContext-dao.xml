@@ -23,7 +23,7 @@
         <!--qiu 改了密码-->
         <property name="password" value="root" />
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/health_70" />
+        <property name="url" value="jdbc:mysql://localhost:3306/project" />
     </bean>
 
     <!--配置SqlSessionFactory-->

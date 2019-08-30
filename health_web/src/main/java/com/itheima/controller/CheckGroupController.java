@@ -27,13 +27,14 @@ public class CheckGroupController {
 
     /**
      * 查询所有的检查组
+     *
      * @return
      */
     @RequestMapping("/findAll")
-    public Result findAll(){
+    public Result findAll() {
         try {
-            List<CheckGroup> list =  checkGroupService.findAll();
-            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,list);
+            List<CheckGroup> list = checkGroupService.findAll();
+            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS, list);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
@@ -42,14 +43,15 @@ public class CheckGroupController {
 
     /**
      * 更新
+     *
      * @param checkGroup
      * @param checkitemIds
      * @return
      */
     @RequestMapping("/edit")
-    public Result edit(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds){
+    public Result edit(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds) {
         try {
-            checkGroupService.edit(checkGroup,checkitemIds);
+            checkGroupService.edit(checkGroup, checkitemIds);
             return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,6 +123,5 @@ public class CheckGroupController {
             return new Result(false, MessageConstant.ADD_CHECKGROUP_FAIL);
         }
     }
-
 
 }

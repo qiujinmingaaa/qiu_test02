@@ -1,5 +1,7 @@
 package com.itheima.service;
 
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
 import com.itheima.pojo.Setmeal;
 
 import java.util.List;
@@ -31,4 +33,12 @@ public interface SetMealService {
      */
     Setmeal findById(Integer id);
 
+    /** 
+    * @Description: 创建套餐管理分页查询
+    * @Param: [queryPageBean] 
+    * @return: com.itheima.entity.PageResult 
+    * @Author: JinPeng
+    * @Date: 2019/8/29 
+    */
+    PageResult findPage(QueryPageBean queryPageBean);
 }

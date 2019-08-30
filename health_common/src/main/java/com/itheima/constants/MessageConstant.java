@@ -68,6 +68,7 @@ public class MessageConstant {
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
     public static final String EDIT_ORDERSETTING_SUCCESS = "更新预约设置成功";
     public static final String EDIT_ORDERSETTING_FAIL = "更新预约设置失败";
+
     public static final String EDIT_ROLE_FAIL = "编辑角色失败";
     public static final String EDIT_ROLE_SUCCESS = "编辑角色成功";
     public static final String ADD_ROLE_FAIL = "新增角色失败";
@@ -75,4 +76,20 @@ public class MessageConstant {
     public static final String DELETE_ROLE_FAIL = "删除角色失败";
     public static final String DELETE_ROLE_SUCCESS = "删除角色成功";
     public static final String ORDER_FAIL = "预约失败";
+    /**
+     * @Description: 新增加用户查询常量及用户添加成功与失败及用户新增提示
+     * @Param:
+     * @return:
+     * @Author: JinPeng
+     * @Date: 2019/8/29
+     */
+    public static final String QUERY_CHECKUSER_SUCCESS = "查询用户成功";
+    public static final String QUERY_CHECKUSER_FAIL = "查询用户失败";
+    public static final String EDIT_USER_SUCCESS = "更新预约设置成功";
+    public static final String EDIT_USER_FAIL = "更新预约设置失败";
+    public static final String QUERY_ROLE_SUCCESS = "获取角色成功";
+    public static final String QUERY_ROLE_FAIL = "获取角色失败";
+    public static final String ADD_USER_SUCCESS = "新增用户成功";
+    public static final String ADD_USER_FAIL = "新增用户失败";
+
 }

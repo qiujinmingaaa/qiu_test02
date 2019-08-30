@@ -2,9 +2,15 @@ package com.itheima.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.alibaba.fastjson.JSONArray;
 import com.itheima.constants.RedisConstant;
 import com.itheima.dao.SetMealDao;
+import com.itheima.entity.PageResult;
+import com.itheima.entity.QueryPageBean;
+import com.itheima.pojo.CheckGroup;
+import com.itheima.pojo.CheckItem;
 import com.itheima.pojo.Setmeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,13 +92,30 @@ public class SetMealServiceImpl implements SetMealService {
     }
 
 
+    /**
+     * @Description: 创建套餐管理分页查询
+     * @Param: [queryPageBean]
+     * @return: com.itheima.entity.PageResult
+     * @Author: JinPeng
+     * @Date: 2019/8/29
+     */
+    @Override
+    public PageResult findPage(QueryPageBean queryPageBean) {
+        //1.调用分页插件的方法
+        PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
+        //2.调用Dao获得Page
+        Page<Setmeal> page = setMealDao.findByConditions(queryPageBean.getQueryString());
+        //3.封装成PageResult 返回
+        PageResult pageResult = new PageResult(page.getTotal(), page.getResult());
+        return pageResult;
+    }
 
     private void setSetMealAndCheckgroup(Integer setmealId, Integer[] checkgroupIds) {
-        if(checkgroupIds != null && checkgroupIds.length>0){
+        if (checkgroupIds != null && checkgroupIds.length > 0) {
             for (Integer checkgroupId : checkgroupIds) {
                 Map map = new HashMap();
-                map.put("setmealId",setmealId);
-                map.put("checkgroupId",checkgroupId);
+                map.put("setmealId", setmealId);
+                map.put("checkgroupId", checkgroupId);
                 setMealDao.setSetMealAndCheckgroup(map);
             }
         }
