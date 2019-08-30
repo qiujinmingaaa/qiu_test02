@@ -1,5 +1,7 @@
 package com.itheima.dao;
 
+import com.github.pagehelper.Page;
+import com.itheima.pojo.Menu;
 import com.itheima.pojo.Menu;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
@@ -7,6 +9,22 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+
+public interface MenuDao {
+
+
+    void add(Menu menu);
+
+    Page<Menu> findByConditions(String queryString);
+
+    void delete(Integer menuId);
+
+    long findByMenuId(Integer menuId);
+
+    Menu findById(Integer id);
+
+    void edit(Menu menu);
+
 
 /**
  * @ProjectName: git_demo
@@ -16,7 +34,7 @@ import java.util.List;
  * @Author: liuXiGua
  * @Date: 2019/8/29 11:38
  */
-public interface MenuDao {
+
 
     /**
      * @description: 查询全部菜单信息

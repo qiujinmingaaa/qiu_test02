@@ -6,6 +6,7 @@ package com.itheima.constants;
 public class MessageConstant {
     public static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
     public static final String DELETE_CHECKITEM_SUCCESS = "删除检查项成功";
+
     public static final String ADD_CHECKITEM_SUCCESS = "新增检查项成功";
     public static final String ADD_CHECKITEM_FAIL = "新增检查项失败";
     public static final String EDIT_CHECKITEM_FAIL = "编辑检查项失败";
@@ -34,6 +35,8 @@ public class MessageConstant {
     public static final String ORDERSETTING_FAIL = "预约设置失败";
     public static final String ADD_MEMBER_FAIL = "新增会员失败";
     public static final String ADD_MEMBER_SUCCESS = "新增会员成功";
+    public static final String ADD_MENU_FAIL = "新增菜单失败";
+    public static final String ADD_MENU_SUCCESS = "新增菜单成功";
     public static final String DELETE_MEMBER_FAIL = "删除会员失败";
     public static final String DELETE_MEMBER_SUCCESS = "删除会员成功";
     public static final String EDIT_MEMBER_FAIL = "编辑会员失败";
@@ -68,6 +71,13 @@ public class MessageConstant {
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
     public static final String EDIT_ORDERSETTING_SUCCESS = "更新预约设置成功";
     public static final String EDIT_ORDERSETTING_FAIL = "更新预约设置失败";
+    public static final String DELETE_MENU_SUCCESS = "删除菜单成功";
+    public static final String DELETE_MENU_FAIL = "删除菜单失败";
+
+    public static final String QUERY_MENU_FAIL = "查询菜单数据失败";
+    public static final String QUERY_MENU_SUCCESS = "查询菜单数据成功";
+    public static final String  EDIT_MENU_FAIL= "编辑菜单失败";
+    public static final String EDIT_MENU_SUCCESS = "编辑菜单成功";
 
     public static final String EDIT_ROLE_FAIL = "编辑角色失败";
     public static final String EDIT_ROLE_SUCCESS = "编辑角色成功";
