@@ -42,7 +42,11 @@
                             </div>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item divided>
-                                    <span style="display:block;">修改密码</span>
+
+                                        <span style="display:block;" >
+                                           <el-button type="primary" class="butT" @click="update()">修改密码</el-button>
+                                        </span>
+
                                 </el-dropdown-item>
                                 <el-dropdown-item divided>
                                     <a href="/logout.do">
@@ -211,6 +215,13 @@
                 },*/
             ]
         },
+        method:{
+            update(){
+                axios.post("").then(response=>{
+
+                })
+            }
+        },
 
         //构造函数
         //created:function () {
@@ -218,8 +229,8 @@
             axios.get("/user/findUsername.do").then(response => {
                 this.username = response.data.data;
             axios.get("/menu/findMenuList.do?username="+this.username).then(response=>{
-                this.menuList = response.data.data
-            })
+                    this.menuList = response.data.data
+                })
         });
 
         },
