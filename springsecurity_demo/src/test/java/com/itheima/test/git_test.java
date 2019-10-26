@@ -11,6 +11,8 @@ public class git_test {
         System.out.println("git");
     }
     public void f(){
-        System.out.println("增加内容");
+        System.out.println("增加");
     }
+
+
 }
